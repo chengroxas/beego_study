@@ -1,6 +1,8 @@
 package controllers
 
-// import "encoding/json"
+import (
+	"encoding/json"
+)
 
 type MainController struct {
 	baseController
@@ -12,20 +14,19 @@ type People struct {
 	Id   int    `form:"id" json:"id"`
 }
 
-func (this *MainController) Get() {
-
+//解析 formdata的数据
+func (this *MainController) MyParseForm() {
+	this.Abort("Db")
+	var people People
+	this.ParseForm(&people)
+	this.result.Data = people
+	this.Success()
 }
 
-func (this *MainController) Post() {
-	// body json
-	// var people People
-	// err := json.Unmarshal(this.Ctx.Input.RequestBody, &people)
-	// if err != nil {
-	// 	this.Ctx.WriteString(err.Error())
-	// 	this.Finish()
-	// }
+//解析 request body json的数据
+func (this *MainController) ParseJson() {
 	var people People
-	err := this.ParseForm(&people)
+	err := json.Unmarshal(this.Ctx.Input.RequestBody, &people)
 	this.CheckError(err)
 	this.result.Data = people
 	this.Success()

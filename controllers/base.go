@@ -32,6 +32,7 @@ func (this *baseController) Prepare() {
 
 func (this *baseController) CheckError(err error) {
 	if err != nil {
+		this.result.Code = 500
 		this.result.Msg = err.Error()
 		this.Fail()
 	}
